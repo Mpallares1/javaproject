@@ -3,10 +3,17 @@
     <!-- Navbar -->
     <header class="container mx-auto px-4 py-6">
       <nav class="flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-500">Marc</h1>
+        <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-500">
+          Marc
+        </h1>
         <ul class="flex space-x-6">
           <li v-for="item in navItems" :key="item.href">
-            <a :href="item.href" class="text-sm uppercase tracking-wider hover:text-yellow-400 transition-colors duration-300">{{ item.text }}</a>
+            <router-link
+             :to="item.href"
+              class="text-sm uppercase tracking-wider hover:text-yellow-400 transition-colors duration-300"
+            >
+              {{ item.text }}
+            </router-link>
           </li>
         </ul>
       </nav>

@@ -7,12 +7,12 @@
         </h1>
         <ul class="flex space-x-6">
           <li v-for="item in navItems" :key="item.href">
-            <a
-              :href="item.href"
+            <router-link
+             :to="item.href"
               class="text-sm uppercase tracking-wider hover:text-yellow-400 transition-colors duration-300"
             >
               {{ item.text }}
-            </a>
+            </router-link>
           </li>
         </ul>
       </nav>
@@ -81,6 +81,7 @@
 
 <script setup>
 import { Calculator, MessageSquare, Users, Github, Twitter, Linkedin } from 'lucide-vue-next';
+import { RouterLink } from 'vue-router';
 
 const navItems = [
   { href: "/calculadora", text: "Calculadora" },

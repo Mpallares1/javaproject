@@ -1,24 +1,27 @@
 <template>
   <!-- Navbar -->
-  <nav class="flex justify-between items-center p-6 bg-gray-900 bg-opacity-90 shadow-md">
-    <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-500">
-      Marc
-    </h1>
-    <ul class="flex space-x-6">
-      <li v-for="item in navItems" :key="item.href">
-        <a
-          :href="item.href"
-          class="text-sm uppercase tracking-wider text-gray-300 hover:text-yellow-400 transition-colors duration-300"
-        >
-          {{ item.text }}
-        </a>
-      </li>
-    </ul>
-  </nav>
+
+  <header class="container mx-auto px-4 py-6">
+      <nav class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-500">
+          Marc
+        </h1>
+        <ul class="flex space-x-6">
+          <li v-for="item in navItems" :key="item.href">
+            <router-link
+             :to="item.href"
+              class="text-sm uppercase tracking-wider hover:text-yellow-400 transition-colors duration-300"
+            >
+              {{ item.text }}
+            </router-link>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
   <!-- Main Content -->
-  <div class="users-container bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-6">
+  <div class="w-full users-container bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-16">
       <h1 class="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-500 mb-8">
         Usuaris
       </h1>
@@ -29,11 +32,11 @@
       </div>
 
       <!-- Users Grid -->
-      <div v-else class="users-grid grid gap-6">
+      <div v-else class="users-grid grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <div
           v-for="user in users"
           :key="user.id"
-          class="user-card bg-gray-800 bg-opacity-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 text-center"
+          class="user-card bg-gray-800 bg-opacity-50 p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center"
         >
           <img :src="user.image" :alt="user.firstName" class="user-image mx-auto mb-4" />
           <h3 class="text-2xl font-semibold text-yellow-400 mb-2">{{ user.firstName }} {{ user.lastName }}</h3>
@@ -72,24 +75,34 @@ const navItems = [
 </script>
 
 <style scoped>
-
-
-/* Container styling */
-.users-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .loading {
   font-size: 1.2rem;
-  color: #666;
-  text-align: center;
+  color: #fbbf24; /* Amarillo personalizado */
 }
 
-/* Users grid layout */
+
 .users-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -97,7 +110,7 @@ const navItems = [
 }
 
 .user-card {
-  background-color: #1f2937;
+  background-color: rgba(31, 41, 55, 0.9); /* Fondo oscuro translúcido */
   border-radius: 8px;
   padding: 1.5rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -119,19 +132,18 @@ const navItems = [
 }
 
 h3 {
-  color: #fff;
+  color: #fbbf24; /* Amarillo para nombres */
   margin: 0 0 0.5rem;
 }
 
 .user-email {
-  color: #ccc;
+  color: #9ca3af; /* Gris claro para el email */
   font-style: italic;
   margin-bottom: 0.5rem;
 }
 
 .user-details, .user-company {
-  color: #bbb;
+  color: #9ca3af; /* Gris claro */
   font-size: 0.9rem;
 }
-
 </style>
