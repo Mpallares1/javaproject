@@ -1,32 +1,70 @@
+import { mount } from '@vue/test-utils';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import Comentaris from '../views/Comentaris.vue'; // Replace with the actual path to your Comentaris
+import { nextTick } from 'vue';
 
-import { mount } from '@vue/test-utils'
-import Comments from '../src/views/ComentariFetch.vue'
-import { vi, describe, it, expect } from 'vitest'
-
-// Simula la función fetch global
+// Mock the fetch API for testing
 global.fetch = vi.fn(() =>
     Promise.resolve({
-        json: () => Promise.resolve([{
-            id: 1, name: 'Test Comment', body: 'This is a comment'
-        }])
+        json: () => Promise.resolve(
+            Array.from({ length: 20 }, (_, i) => ({
+                id: i + 1,
+                name: `Commenter ${i + 1}`,
+                email: `email${i + 1}@example.com`,
+                body: `This is comment ${i + 1}`
+            }))
+        ),
     })
-)
+);
 
-describe('fetch', () => {
-    it('fetches comments from API', async () => {
-        // Monta el componente
-        const wrapper = mount(Comments)
+describe('Comentaris.vue', () => {
+    let wrapper;
 
-        // Espera a que las promesas se resuelvan, incluyendo la llamada fetch
-        await wrapper.vm.$nextTick() // Espera a que Vue termine de procesar el ciclo de reactividad
-        await new Promise(resolve => setTimeout(resolve, 100)) // Espera un poco más por si fetch tarda
+    beforeEach(async () => {
+        wrapper = mount(Comentaris);
+        await nextTick();
+    });
 
-        // Verifica que se hayan cargado los comentarios y que haya al menos uno
-        expect(wrapper.vm.comments.length).toBeGreaterThan(0)
+    afterEach(() => {
+        vi.clearAllMocks();
+    });
 
-        // Verifica si el contenido del comentario es el esperado
-        const commentItem = wrapper.find('li')
-        expect(commentItem.text()).toContain('Test Comment')
-        expect(commentItem.text()).toContain('This is a comment')
-    })
-})
+    it('renders the header with navigation items', () => {
+        expect(wrapper.find('header h1').text()).toBe('Marc');
+        const navItems = wrapper.findAll('nav ul li');
+        expect(navItems.length).toBe(3);
+        expect(navItems[0].text()).toBe('Inici');
+        expect(navItems[1].text()).toBe('Calculadora');
+        expect(navItems[2].text()).toBe('Usuaris');
+    });
+
+    it('displays loading indicator before comments load', async () => {
+        wrapper = mount(Comentaris); // Re-mount to simulate initial loading
+        expect(wrapper.find('.loading').exists()).toBe(true);
+        expect(wrapper.find('.loading').text()).toBe('Carregant comentaris...');
+    });
+
+    it('renders comments list after loading', async () => {
+        await nextTick();
+        expect(wrapper.find('.loading').exists()).toBe(false); // Loading indicator should disappear
+        const comments = wrapper.findAll('.comment');
+        expect(comments.length).toBe(10); // Only the initial 10 comments should be visible
+        expect(comments[0].find('h3').text()).toBe('Commenter 1');
+    });
+
+    it('loads more comments when "Carregar més" button is clicked', async () => {
+        await nextTick();
+        await wrapper.find('button').trigger('click');
+        await nextTick();
+        const comments = wrapper.findAll('.comment');
+        expect(comments.length).toBe(20); // All 20 comments should now be visible
+    });
+
+    it('shows "Carregar més" button only when there are more comments to load', async () => {
+        await nextTick();
+        expect(wrapper.find('button').exists()).toBe(true); // Initially, the button is visible
+        await wrapper.find('button').trigger('click'); // Load all comments
+        await nextTick();
+        expect(wrapper.find('button').exists()).toBe(false); // Button disappears once all comments are loaded
+    });
+});

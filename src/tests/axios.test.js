@@ -1,9 +1,10 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi } from 'vitest';
 import axios from 'axios';
-import AxiosUsers from '../src/views/AxiosUsers.vue';
+import Usuaris from '../views/Usuaris.vue';
 
-// Simula axios para evitar peticiones reales durante las pruebas
+
+
 vi.mock('axios');
 
 describe('axios', () => {
@@ -15,19 +16,24 @@ describe('axios', () => {
                 id: 1,
                 firstName: "raul",
                 lastName: "patrascu",
-
+                age: 28,
+                gender: "female",
+                email: "emily.johnson@x.dummyjson.com",
+                company: {
+                name: "Dooley, Kozey and Cronin"
+            }
             },
         ];
 
         axios.get.mockResolvedValueOnce({ data: { users: mockUsers } });
 
-        const wrapper = mount(AxiosUsers);
+        const wrapper = mount(Usuaris);
 
         await wrapper.vm.$nextTick();
 
         await new Promise(resolve => setTimeout(resolve, 100));
 
-        const postTitles = wrapper.findAll('h2');
+        const postTitles = wrapper.findAll('h3');
 
         expect(postTitles.length).toBe(1);
 
