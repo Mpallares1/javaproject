@@ -46,6 +46,32 @@
         </div>
       </div>
     </div>
+
+    <footer class="bg-gray-900 py-8 mt-24">
+      <div class="container mx-auto px-4 text-center text-gray-500">
+        <p>&copy; {{ new Date().getFullYear() }} VueApp. Tots els drets reservats.</p>
+        <div
+          class="flex flex-col md:flex-row justify-center items-center mt-6 space-y-4 md:space-y-0 md:space-x-8 text-gray-400"
+        >
+          <div>
+            <p class="font-semibold text-lg">
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-500">Marc</span>
+              Pallares Pino - 2nDAM 24/25
+            </p>
+          </div>
+          <div class="flex space-x-4">
+            <a
+              v-for="social in socials"
+              :key="social.name"
+              :href="social.url"
+              class="text-gray-400 hover:text-yellow-400 transition-colors duration-300"
+            >
+              <component :is="social.icon" class="w-6 h-6" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
