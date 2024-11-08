@@ -31,11 +31,12 @@
           per fer l’aplicació.
         </p>
         <button
-          onclick="window.location.href='/calculadora'"
-          class="bg-gradient-to-r from-yellow-500 to-purple-600 text-white font-bold py-3 px-8 rounded-full hover:from-yellow-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 animate-pulse"
-        >
-          Comença a Calcular
-        </button>
+        @click="$router.push('/calculadora')"
+    class="bg-gradient-to-r from-yellow-500 to-purple-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:from-yellow-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 animate-pulse"
+    aria-label="Comença a calcular"
+  >
+    Comença a Calcular
+  </button>
       </section>
 
       <section id="features" class="grid md:grid-cols-3 gap-12 mb-24">
